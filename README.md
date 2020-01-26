@@ -1,3 +1,4 @@
+# This repository is forked to be used for FOS project only. This should not be used in the other projects.
 # SilverStripe 4 Block Page
 
 [![Latest Stable Version](https://poser.pugx.org/cyber-duck/silverstripe-block-page/v/stable)](https://packagist.org/packages/cyber-duck/silverstripe-block-page)
