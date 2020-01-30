@@ -72,7 +72,7 @@ class ContentBlock extends DataObject implements PermissionProvider
                 'title' => 'Block Type',
                 'field' => DropdownField::create('ClassName')->setSource(ContentBlock::get()->map('ClassName', 'ClassName')->toArray())->setEmptyString('-- Content Type --'),
             ],
-            'FilterTitle' => [
+            'Title' => [
                 'filter' => 'PartialMatchFilter',
                 'title' => 'Title',
                 'field' => TextField::class,
@@ -216,7 +216,7 @@ class ContentBlock extends DataObject implements PermissionProvider
         $filters = array();
 
         foreach ($this->searchableFields() as $name => $spec) {
-            if (in_array($name, [ 'FilterTitle', 'ID' ])) {
+            if (in_array($name, [ 'Title', 'ID' ])) {
                 continue;
             }
 
