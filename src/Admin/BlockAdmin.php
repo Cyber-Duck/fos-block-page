@@ -75,8 +75,8 @@ class BlockAdmin extends ModelAdmin
 
     private function getTitleFilterField()
     {
-        if (isset($this->filterRequest['CyberDuck-BlockPage-Model-ContentBlock']['FilterTitle']) and ! empty($this->filterRequest['CyberDuck-BlockPage-Model-ContentBlock']['FilterTitle'])) {
-            return $this->filterRequest['CyberDuck-BlockPage-Model-ContentBlock']['FilterTitle'];
+        if (isset($this->filterRequest['CyberDuck-BlockPage-Model-ContentBlock']['MenuTitle']) and ! empty($this->filterRequest['CyberDuck-BlockPage-Model-ContentBlock']['MenuTitle'])) {
+            return $this->filterRequest['CyberDuck-BlockPage-Model-ContentBlock']['MenuTitle'];
         }
 
         return "";
