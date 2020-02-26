@@ -2,6 +2,7 @@
 
 namespace CyberDuck\BlockPage\Extension;
 
+use CyberDuck\BlockPage\Action\GridFieldVersionedContentBlockItemRequest;
 use CyberDuck\BlockPage\Model\ContentBlock;
 use CyberDuck\BlockPage\Model\CustomGridFieldAddExistingAutocompleter;
 use SilverStripe\Control\Controller;
@@ -60,6 +61,8 @@ class BlockPageExtension extends DataExtension
             $contentBlocksFieldConfig->addComponent(new GridFieldDeleteAction(true));
             $contentBlocksFieldConfig->addComponent(new GridField_ActionMenu());
             $contentBlocksFieldConfig->addComponent(new GridFieldDetailForm());
+            $contentBlocksFieldConfig->addComponent(new GridFieldOrderableRows('SortBlock'));
+            $contentBlocksFieldConfig->getComponentByType(GridFieldDetailForm::class)->setItemRequestClass(GridFieldVersionedContentBlockItemRequest::class);
 
             $contentBlocksField = GridField::create(
                 'ContentBlocks',
