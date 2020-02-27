@@ -61,7 +61,7 @@ class ContentBlock extends DataObject implements PermissionProvider
 
     public function searchableFields()
     {
-        return [
+        $fields = [
             'ID' => [
                 'filter' => 'ExactMatchFilter',
                 'title' => 'ID',
@@ -72,12 +72,16 @@ class ContentBlock extends DataObject implements PermissionProvider
                 'title' => 'Block Type',
                 'field' => DropdownField::create('ClassName')->setSource(ContentBlock::get()->map('ClassName', 'ClassName')->toArray())->setEmptyString('-- Content Type --'),
             ],
-            'MenuTitle' => [
+            'Title' => [
                 'filter' => 'PartialMatchFilter',
                 'title' => 'Title',
                 'field' => TextField::class,
             ],
         ];
+
+        $this->extend("updateSearchableFields", $fields);
+
+        return $fields;
     }
 
     public function getThumbnail()
