@@ -214,26 +214,4 @@ class ContentBlock extends DataObject implements PermissionProvider
     {
         return Permission::check('DELETE_CONTENT_BLOCKS', 'any', $member);
     }
-
-    public function defaultSearchFilters()
-    {
-        $filters = array();
-
-        foreach ($this->searchableFields() as $name => $spec) {
-            if (in_array($name, [ 'MenuTitle', 'ID' ])) {
-                continue;
-            }
-
-            if (empty($spec['filter'])) {
-                /** @skipUpgrade */
-                $filters[$name] = 'PartialMatchFilter';
-            } elseif ($spec['filter'] instanceof SearchFilter) {
-                $filters[$name] = $spec['filter'];
-            } else {
-                $filters[$name] = Injector::inst()->create($spec['filter'], $name);
-            }
-        }
-
-        return $filters;
-    }
 }
