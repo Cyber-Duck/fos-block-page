@@ -108,13 +108,15 @@ class ContentBlock extends DataObject implements PermissionProvider
 
     public function getTemplateHolder()
     {
-        return $this->renderWith(['Block/ContentBlock_holder']);
+        return $this->renderWith(['type' => 'Blocks', 'ContentBlock_holder']);
     }
 
     public function getTemplate()
     {
-        if($this->ClassName != ContentBlock::class) {
-            return $this->renderWith('Block/'.$this->ClassName);
+        $template = SSViewer::chooseTemplate(['type' => "Blocks", $this->ClassName]);
+
+        if($template) {
+            return $this->renderWith($template);
         }
     }
 
@@ -142,11 +144,18 @@ class ContentBlock extends DataObject implements PermissionProvider
 
         $rules = (array) Config::inst()->get(ContentBlock::class, 'restrict');
 
-        if(array_key_exists($session->get('BlockRelationClass'), $rules)) {
-            $classes = $rules[$session->get('BlockRelationClass')];
+        $subsiteClass = 'SilverStripe\\Subsites\\Model\\Subsite';
+        if(class_exists($subsiteClass) && $subsite = singleton($subsiteClass)->currentSubsite()) {
+            $blockTypeWhitelist = json_decode($subsite->BlockTypeWhitelist);
+            $classes = $blockTypeWhitelist;
         } else {
             $classes = (array) Config::inst()->get(ContentBlock::class, 'blocks');
         }
+
+        if(array_key_exists($session->get('BlockRelationClass'), $rules)) {
+            $classes = array_intersect($rules[$session->get('BlockRelationClass')], $classes);
+        }
+
         $options = [];
         foreach($classes as $class) {
             $options[$class] = DBField::create_field('HTMLText', Controller::curr()

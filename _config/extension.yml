@@ -4,3 +4,10 @@ Name: cyber-duck block page extensions
 SilverStripe\CMS\Forms\AnchorSelectorField:
   extensions:
     - CyberDuck\BlockPage\Extension\AnchorSelectorFieldExtension
+      
+---
+moduleexists: silverstripe/subsites
+---
+SilverStripe\Subsites\Model\Subsite:
+  extensions:
+    - CyberDuck\BlockPage\Extension\SubsiteExtension

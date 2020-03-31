@@ -1,5 +1,5 @@
 {
-    "name": "cyber-duck/silverstripe-block-page",
+    "name": "cyber-duck/fos-block-page",
     "description": "A modular approach to building pages in SilverStripe",
     "type": "silverstripe-vendormodule",
     "homepage": "http://github.com/cyber-duck/silverstripe-block-page",
