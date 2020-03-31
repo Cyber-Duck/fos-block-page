@@ -26,6 +26,7 @@ use SilverStripe\Security\Permission;
 use SilverStripe\Security\PermissionProvider;
 use SilverStripe\Versioned\Versioned;
 use SilverStripe\Versioned\VersionedGridFieldItemRequest;
+use SilverStripe\View\SSViewer;
 
 class ContentBlock extends DataObject implements PermissionProvider
 {
