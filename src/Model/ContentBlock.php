@@ -145,16 +145,10 @@ class ContentBlock extends DataObject implements PermissionProvider
 
         $rules = (array) Config::inst()->get(ContentBlock::class, 'restrict');
 
-        $subsiteClass = 'SilverStripe\\Subsites\\Model\\Subsite';
-        if(class_exists($subsiteClass) && $subsite = singleton($subsiteClass)->currentSubsite()) {
-            $blockTypeWhitelist = json_decode($subsite->BlockTypeWhitelist);
-            $classes = $blockTypeWhitelist;
+        if(array_key_exists($session->get('BlockRelationClass'), $rules)) {
+            $classes = $rules[$session->get('BlockRelationClass')];
         } else {
             $classes = (array) Config::inst()->get(ContentBlock::class, 'blocks');
-        }
-
-        if(array_key_exists($session->get('BlockRelationClass'), $rules)) {
-            $classes = array_intersect($rules[$session->get('BlockRelationClass')], $classes);
         }
 
         $options = [];
