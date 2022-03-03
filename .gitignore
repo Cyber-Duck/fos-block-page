@@ -2,3 +2,4 @@ todo
 vendor
 .sass-cache
 .idea
+composer.lock

@@ -1,6 +1,7 @@
 <?php
 
 namespace CyberDuck\BlockPage\Model;
+use SilverStripe\ORM\DataObjectSchema;
 
 use Page;
 use SilverStripe\Control\Controller;
@@ -218,4 +219,35 @@ class ContentBlock extends DataObject implements PermissionProvider
     {
         return Permission::check('DELETE_CONTENT_BLOCKS', 'any', $member);
     }
+
+	public function getAnchorsInBlock()
+	{
+		$dbSchema = Injector::inst()->get(DataObjectSchema::class);
+
+		$anchors = [];
+
+		$anchors[] = sprintf("block-%s", $this->ID);
+
+		$fields = $dbSchema->databaseFields($this->ClassName);
+
+		foreach($fields as $field => $type) {
+			if($type === 'HTMLText') {
+				$content = $this->getField($field);
+
+				if($content) {
+					// Get anchors using the same regex as AnchorSelectorField
+					$parseSuccess = preg_match_all("/\\s+(name|id)\\s*=\\s*([\"'])([^\\2\\s>]*?)\\2|\\s+(name|id)\\s*=\\s*([^\"']+)[\\s +>]/im", $content, $matches);
+
+					if($parseSuccess) {
+						// Cleanup results and merge them to the results,
+						$anchors = array_merge($anchors, array_values(array_unique(array_filter(array_merge($matches[3], $matches[5])))));
+					}
+				}
+			}
+		}
+
+		$this->extend('updateAnchorsInBlock', $anchors);
+
+		return $anchors;
+	}
 }
